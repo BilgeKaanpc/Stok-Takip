@@ -55,18 +55,26 @@ namespace StokTakip
             public static void DataAdd(TextBox t1, TextBox t2, MaskedTextBox t3,DataGridView dtm)
             {
                 Baglan.connection.Open();
-                SQLiteCommand ekle = new SQLiteCommand("insert into stok (urun_kodu,urun_tanimi,adet) values (@k1,@k2,@k3)",Baglan.connection);
-                ekle.Parameters.AddWithValue("@k1", t1.Text);
-                ekle.Parameters.AddWithValue("@k2", t2.Text);
-                ekle.Parameters.AddWithValue("@k3", int.Parse(t3.Text));
-                ekle.ExecuteNonQuery();
-                Baglan.connection.Close();
-                t1.Clear();
-                t2.Clear();
-                t3.Clear();
+                if(t1.Text.Length<1 || t2.Text.Length <1 || t3.Text.Length < 1)
+                {
+                    MessageBox.Show("Ürün verisi girdiğinizden emin olun.");
+                }
+                else
+                {
+                    SQLiteCommand ekle = new SQLiteCommand("insert into stok (urun_kodu,urun_tanimi,adet) values (@k1,@k2,@k3)", Baglan.connection);
+                    ekle.Parameters.AddWithValue("@k1", t1.Text);
+                    ekle.Parameters.AddWithValue("@k2", t2.Text);
+                    ekle.Parameters.AddWithValue("@k3", int.Parse(t3.Text));
+                    ekle.ExecuteNonQuery();
+                    Baglan.connection.Close();
+                    t1.Clear();
+                    t2.Clear();
+                    t3.Clear();
 
-                string sql = "Select * from stok";
-                dtm.DataSource = CRUD.Listele(sql);
+                    string sql = "Select * from stok";
+                    dtm.DataSource = CRUD.Listele(sql);
+                }
+                Baglan.connection.Close();
             }
             public static void DataSearch(TextBox t1,DataGridView dgv)
             {
@@ -83,23 +91,40 @@ namespace StokTakip
             public static void DataUpdate(int value , TextBox t1,DataGridView dtm)
             {
                 Baglan.connection.Open();
-                SQLiteCommand search = new SQLiteCommand("Select adet From stok where urun_kodu like '%" + t1.Text + "%'", Baglan.connection);
-                SQLiteDataReader drm = search.ExecuteReader();
-                int oldValue = 0;
-                while (drm.Read())
-                {
-                    oldValue = int.Parse(drm[0].ToString());
-                }
-                int newValue = oldValue - value;
 
-                SQLiteCommand searchUpdate = new SQLiteCommand("UPDATE stok set adet = '" + newValue + " 'WHERE urun_kodu like '%" + t1.Text + "%'", Baglan.connection);
-                searchUpdate.ExecuteNonQuery();
-                SQLiteCommand searchUpdateDate = new SQLiteCommand("UPDATE stok set tarih = '" + DateTime.Now + " 'WHERE urun_kodu like '%" + t1.Text + "%'", Baglan.connection);
-                searchUpdateDate.ExecuteNonQuery();
-                string sql = "Select * from stok";
-                dtm.DataSource = CRUD.Listele(sql);
-                t1.Clear();
-                Baglan.connection.Close();
+                if(t1.Text.Length<1 || value == 0)
+                {
+                    MessageBox.Show("Ürün verisi girdiğinizden emin olun.");
+                }
+                else
+                {
+
+                    SQLiteCommand search = new SQLiteCommand("Select adet From stok where urun_kodu like '%" + t1.Text + "%'", Baglan.connection);
+                    SQLiteDataReader drm = search.ExecuteReader();
+                    int oldValue = 0;
+                    while (drm.Read())
+                    {
+                        oldValue = int.Parse(drm[0].ToString());
+                    }
+                    int newValue = oldValue - value;
+                    if (newValue < 0)
+                    {
+                        MessageBox.Show("Ürün adeti 0'ın altına olamaz.");
+                    }
+                    else
+                    {
+                        SQLiteCommand searchUpdate = new SQLiteCommand("UPDATE stok set adet = '" + newValue + " 'WHERE urun_kodu like '%" + t1.Text + "%'", Baglan.connection);
+                        searchUpdate.ExecuteNonQuery();
+                        SQLiteCommand searchUpdateDate = new SQLiteCommand("UPDATE stok set tarih = '" + DateTime.Now + " 'WHERE urun_kodu like '%" + t1.Text + "%'", Baglan.connection);
+                        searchUpdateDate.ExecuteNonQuery();
+                        string sql = "Select * from stok";
+                        dtm.DataSource = CRUD.Listele(sql);
+                        t1.Clear();
+                    }
+
+
+                    Baglan.connection.Close();
+                }
             }
         }
 
@@ -115,7 +140,15 @@ namespace StokTakip
 
         private void button3_Click(object sender, EventArgs e)
         {
-            CRUD.DataUpdate(int.Parse(maskedTextBox2.Text), textBox5,dataGridView1);
+            if (textBox5.Text.Length < 1 || maskedTextBox2.Text.Length<1)
+            {
+                MessageBox.Show("Ürün verisi girdiğinizden emin olun.");
+            }
+            else
+            {
+                CRUD.DataUpdate(int.Parse(maskedTextBox2.Text), textBox5, dataGridView1);
+            }
+            
 
             maskedTextBox2.Clear();
         }
@@ -142,7 +175,16 @@ namespace StokTakip
 
         private void button2_Click(object sender, EventArgs e)
         {
-            CRUD.DataUpdate((-int.Parse(maskedTextBox2.Text)), textBox5, dataGridView1);
+            if (textBox5.Text.Length < 1 || maskedTextBox2.Text.Length < 1)
+            {
+                MessageBox.Show("Ürün verisi girdiğinizden emin olun.");
+            }
+            else
+            {
+                CRUD.DataUpdate((-int.Parse(maskedTextBox2.Text)), textBox5, dataGridView1);
+
+            }
+
             maskedTextBox2.Clear();
         }
     }
