@@ -47,6 +47,7 @@ namespace StokTakip
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -145,7 +146,7 @@ namespace StokTakip
             // 
             this.button3.Location = new System.Drawing.Point(85, 88);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(166, 33);
+            this.button3.Size = new System.Drawing.Size(74, 31);
             this.button3.TabIndex = 12;
             this.button3.Text = "Ürün Çıkışı";
             this.button3.UseVisualStyleBackColor = true;
@@ -207,6 +208,7 @@ namespace StokTakip
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.maskedTextBox2);
             this.groupBox3.Controls.Add(this.textBox5);
             this.groupBox3.Controls.Add(this.button3);
@@ -217,7 +219,7 @@ namespace StokTakip
             this.groupBox3.Size = new System.Drawing.Size(281, 160);
             this.groupBox3.TabIndex = 19;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Ürün Çıkışı";
+            this.groupBox3.Text = "Ürün Adeti Güncelleme";
             // 
             // maskedTextBox2
             // 
@@ -227,6 +229,16 @@ namespace StokTakip
             this.maskedTextBox2.Size = new System.Drawing.Size(166, 20);
             this.maskedTextBox2.TabIndex = 16;
             this.maskedTextBox2.ValidatingType = typeof(int);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(176, 88);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(74, 31);
+            this.button2.TabIndex = 17;
+            this.button2.Text = "Ürün Girişi";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
@@ -271,6 +283,7 @@ namespace StokTakip
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.Button button2;
     }
 }
 
