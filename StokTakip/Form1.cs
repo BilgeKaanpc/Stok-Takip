@@ -57,7 +57,20 @@ namespace StokTakip
                 Baglan.connection.Open();
                 if(t1.Text.Length<1 || t2.Text.Length <1 || t3.Text.Length < 1)
                 {
-                    MessageBox.Show("Ürün verisi girdiğinizden emin olun.");
+                    List<string> list = new List<string>();
+                    list.Add(t1.Text);
+                    list.Add(t2.Text);
+                    list.Add(t3.Text);
+                    int temp = 0;
+                    for(int i = 0; i < 3; i++)
+                    {
+                        if (list[i].Length < 1)
+                        {
+                            temp++;
+                        }
+                    }
+
+                    MessageBox.Show(temp + " adet veri girilmedi.");
                 }
                 else
                 {
